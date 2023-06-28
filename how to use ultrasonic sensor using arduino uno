@@ -1,0 +1,52 @@
+//how to use ultrasonic sensor using arduino uno
+//define pins
+const int trig_pin=6;
+const int echo_pin=7;
+
+//define variables
+long pulse_duration;
+int distance_cm, distance_inch;
+
+
+void setup() {
+
+Serial.begin(9600); // Start serial communication
+
+   pinMode(trig_pin, OUTPUT); //Configure trig_pin 6 as output pin
+   pinMode(echo_pin, INPUT); //Configure  echo_pin 7 as input pin
+   
+   
+
+}
+
+void loop() {
+
+  digitalWrite(trig_pin,LOW); //Initally clear the trig_pin for 5 micro sec
+
+  delayMicroseconds(5);//pause for 5 microseconds
+   
+digitalWrite(trig_pin,HIGH); //Configure the trig_pin 6 on HIGH state for 10 microsec
+
+delayMicroseconds(10);//pause for 10 microseconds
+
+digitalWrite(trig_pin,LOW); 
+  
+pulse_duration=pulseIn(echo_pin, HIGH);// Read the value at echo_pin 7 and measure the travel time of sound wave in microsec
+
+distance_cm=(pulse_duration*0.034)/2;// Calculate the distance in cm
+distance_inch=(pulse_duration*0.0133)/2;// Calculate the distance in inch
+
+Serial.print("Distance in cm: ");
+Serial.print(distance_cm);
+Serial.println(" cm");
+//Serial.print("\t"); //print a tab
+Serial.print("Distance in inch: ");
+Serial.print(distance_inch);
+Serial.println(" inch");
+Serial.println();
+
+
+delay(1000);
+
+
+}
