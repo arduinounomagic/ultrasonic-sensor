@@ -1,0 +1,47 @@
+//ultrasound sensor using LCD with NewPing version
+
+
+ #include<LiquidCrystal.h>
+  #include<NewPing.h>
+LiquidCrystal ARDUINO_LCD(8, 2, 7, 6, 5, 4);// Set RS pin=8, Enable pin=2, D4=7, D5=6, D6=5, d7=4. 
+
+
+#define TRIG_PIN 3 //connect trigger pin to pin 3 of arduino uno
+#define ECHO_PIN 12 //connect echo pin to pin 12 of arduino uno
+#define MAX_DISTANCE_CM 300 //maximum distance up to which need to measure in cm
+ 
+
+NewPing sonar(TRIG_PIN, ECHO_PIN, MAX_DISTANCE_CM);//setup pins for NewPing 
+
+void setup()
+{
+ARDUINO_LCD.begin(16, 2);//assign serial monitor at 115200 baud
+  pinMode(3, OUTPUT); //Configure trig_pin 3 as output pin
+   pinMode(12, INPUT); //Configure  echo_pin 12 as input pin
+   
+    ARDUINO_LCD.clear(); //Clear screen
+
+}
+  
+ void loop()
+  {
+delay(50);//wait for 50 miliseconds 
+    ARDUINO_LCD.clear(); //Clear screen  
+ARDUINO_LCD.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed 
+  
+//print distance in cm
+ARDUINO_LCD.print("Distance:"); //print Distance on serial monitor
+    ARDUINO_LCD.print(sonar.ping_cm());//send a ping, returns the distance in cm or zero if echo ping is not under the set distance range (300)
+    ARDUINO_LCD.println(" cm  ");
+  
+ARDUINO_LCD.setCursor(0,1);// Sets the location at which subsequent text written to the LCD will be displayed 
+
+//print distance in inch
+ARDUINO_LCD.print("Distance:");
+   ARDUINO_LCD.print(sonar.ping_in());//send a ping, returns the distance in inch
+    ARDUINO_LCD.print(" inch");
+    
+   delay(1000);
+    }
+  
+       
