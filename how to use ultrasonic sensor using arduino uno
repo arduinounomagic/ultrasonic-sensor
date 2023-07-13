@@ -1,4 +1,13 @@
-//how to use ultrasonic sensor using arduino uno
+//how to use ultrasonic sensor using Arduino uno
+
+*Copyright (C) 2007 Free Software Foundation, Inc. <arduinounomagic@gmail.com>
+*
+*For more detail please visit:https://www.arduinounomagic.com/2018/10/smart-plant-watering-system-using.html
+*
+*for more projects please visit://www.arduinounomagic.com
+*/
+
+
 //define pins
 const int trig_pin=6;
 const int echo_pin=7;
@@ -39,7 +48,7 @@ distance_inch=(pulse_duration*0.0133)/2;// Calculate the distance in inch
 Serial.print("Distance in cm: ");
 Serial.print(distance_cm);
 Serial.println(" cm");
-//Serial.print("\t"); //print a tab
+
 Serial.print("Distance in inch: ");
 Serial.print(distance_inch);
 Serial.println(" inch");
