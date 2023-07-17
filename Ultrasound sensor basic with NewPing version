@@ -1,0 +1,89 @@
+//ultrasound sensor basics with NewPing version
+
+//Copyright (C) 2007 Free Software Foundation, Inc. <arduinounomagic@gmail.com>
+
+//For more details please visit:
+
+//For more projects please visit://www.arduinounomagic.com
+
+
+
+#include<LiquidCrystal.h> //Add LCD hedder file
+
+LiquidCrystal ARDUINO_LCD(8, 2, 7, 6, 5, 4);// Set RS pin=8, Enable pin=2, D4=7, D5=6, D6=5, d7=4. 
+
+//define pins
+const int trig_pin=3;
+const int echo_pin=12;
+
+//define variables
+long pulse_duration;
+int distance_cm, distance_inch;
+
+void setup() {
+  ARDUINO_LCD.begin(16, 2);//set up the number of columns and rows of LCD
+
+   pinMode(trig_pin, OUTPUT); //Configure trig_pin 3 as output pin
+   pinMode(echo_pin, INPUT); //Configure  echo_pin 12 as input pin
+  
+}
+
+void loop() {
+
+digitalWrite(trig_pin,LOW); //Initally clear the trig_pin for 5 micro sec
+
+delayMicroseconds(5);//pause for 5 microseconds
+digitalWrite(trig_pin,HIGH); //Configure the trig_pin 3 on HIGH state for 10 microsec
+
+delayMicroseconds(10);//pause for 10 microseconds
+digitalWrite(trig_pin,LOW); 
+
+pulse_duration=pulseIn(echo_pin, HIGH);// Read the value at echo_pin 12 and measure the travel time of sound wave in microsec
+
+distance_cm=(pulse_duration*0.034)/2;// Calculate the distance in cm
+distance_inch=(pulse_duration*0.0133)/2;// Calculate the distance in inch
+ 
+ARDUINO_LCD.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed 
+  
+//print distance in cm
+ARDUINO_LCD.print("Distance: ");
+ARDUINO_LCD.print(distance_cm);
+ARDUINO_LCD.print(" cm");
+  
+ARDUINO_LCD.setCursor(0,1);// Sets the location at which subsequent text written to the LCD will be displayed 
+
+//print distance in inch
+ARDUINO_LCD.print("Distance: ");
+ARDUINO_LCD.print(distance_inch);
+ARDUINO_LCD.print(" inch");
+
+delay(1000);
+
+}
+
+ #include<NewPing.h>
+#define TRIG_PIN 3 //connect trigger pin to pin 3 of Arduino uno
+#define ECHO_PIN 8 //connect echo pin to pin 8 of Arduino uno
+#define MAX_DISTANCE_CM 300 //maximum distance up to which need to measure in cm
+ 
+
+NewPing sonar(TRIG_PIN, ECHO_PIN, MAX_DISTANCE_CM);//setup pins for NewPing 
+
+void setup()
+{
+Serial.begin(115200);//assign serial monitor at 115200 baud
+  }
+  
+ void loop()
+  {
+delay(50);//wait for 50 milliseconds 
+ Serial.print("Distance in cm:"); //print Distance on serial monitor
+    Serial.print(sonar.ping_cm());//send a ping, returns the distance in cm or zero if echo ping is not under the set distance range (300)
+    Serial.println(" cm");
+   
+   Serial.print("Distance in inch:");
+   Serial.print(sonar.ping_in());//send a ping, returns the distance in inch
+    Serial.print(" inch");
+    Serial.println();
+    }
+  
